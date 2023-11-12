@@ -7,7 +7,7 @@ pipeline {
                 branches: [[name: "*/devops"]],
                 extensions: [],
                 userRemoteConfigs: [[url: "https://github.com/eliasuh/testspringbootapp.git"]]])
-                sh "mvn clean install"
+                sh 'mvn clean install'
           }
         }
     }
