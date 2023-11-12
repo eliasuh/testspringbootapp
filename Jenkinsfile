@@ -8,7 +8,6 @@ pipeline {
                 extensions: [],
                 userRemoteConfigs: [[url: "https://github.com/eliasuh/testspringbootapp.git"]]])
                 sh 'mvn -version'
-                sh 'mvn clean package'
           }
         }
     }
