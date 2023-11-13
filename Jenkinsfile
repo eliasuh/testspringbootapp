@@ -1,10 +1,10 @@
 pipeline {
     agent any
     environment {
-          PATH = /opt/apache-maven-3.8.6/bin:$PATH
+          PATH = "/opt/apache-maven-3.8.6/bin:$PATH"
     }
     stages {
-        stage("git") {
+        stage("clone code with git") {
             steps {
               checkout([$class: "GitSCM", 
                 branches: [[name: "*/devops"]],
@@ -13,7 +13,7 @@ pipeline {
               
           }
         }
-        stage("build") {
+        stage("build code with maven") {
            steps {            
                 sh "mvn -version"
                 sh "mvn clean install"
