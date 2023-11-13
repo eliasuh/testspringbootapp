@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
           PATH = "/opt/apache-maven-3.8.6/bin:$PATH"
+          DOCKERHUB_CREDENTIALS= credentials('uhelias')  
     }
     triggers {
         pollSCM "* * * * *"
@@ -23,12 +24,10 @@ pipeline {
           }
         }
         stage('Staging') {
-            steps {
-              withCredentials([string(credentialsId: 'uhelias', variable: 'dockerpwd')]) {
-                sh "docker login -u username -p ${dockerpwd}"
+            steps {    
                 sh 'sudo docker-compose build'
                 sh 'sudo docker-compose up -d'
-              }
+             
             }
         }
     }
