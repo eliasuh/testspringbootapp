@@ -24,8 +24,11 @@ pipeline {
         }
         stage('Staging') {
             steps {
+              withCredentials([string(credentialsId: 'uhelias', variable: 'dockerpwd')]) {
+                sh "docker login -u username -p ${dockerpwd}"
                 sh 'sudo docker-compose build'
                 sh 'sudo docker-compose up -d'
+              }
             }
         }
     }
