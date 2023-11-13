@@ -1,9 +1,7 @@
 pipeline {
     agent any
     environment {
-          PATH = "/opt/apache-maven-3.8.6/bin:$PATH"
-          registry = "uhelias/springbootapp"
-          registryCredential = 'uhelias'  
+          PATH = "/opt/apache-maven-3.8.6/bin:$PATH"         
     }
     triggers {
         pollSCM "* * * * *"
@@ -26,6 +24,8 @@ pipeline {
         }
         stage('Staging') {
             steps {    
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $uhelias --password-stdin'                		
+	              echo 'Login Completed' 
                 sh 'sudo docker-compose build'
                 sh 'sudo docker-compose up -d'
              
