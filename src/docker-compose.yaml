@@ -34,7 +34,6 @@ volumes:
     driver: local
   redis:
     driver: local
-
 networks:
   mysqlnetwork:
     driver: bridge
