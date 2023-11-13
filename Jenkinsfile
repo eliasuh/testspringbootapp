@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
           PATH = "/opt/apache-maven-3.8.6/bin:$PATH"      
-          DOCKERHUB_CREDENTIALS= credentials('uhelias')   
+          DOCKERHUB_CREDENTIALS = credentials('dockerhub')   
     }
     triggers {
         pollSCM "* * * * *"
@@ -23,9 +23,9 @@ pipeline {
                 sh "mvn clean install -DskipTests"
           }
         }
-        stage('Staging') {
+        stage('docker Login') {
             steps {    
-                sh 'echo $DOCKERHUB_CREDENTIALS | sudo docker login -u $DOCKERHUB_CREDENTIALS --password-stdin'                		
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'             		
 	              echo 'Login Completed' 
                 sh 'sudo docker-compose build'
                 sh 'sudo docker-compose up -d'
