@@ -1,17 +1,32 @@
 pipeline {
     agent any
-    tools {
-        maven 'Maven 3.8.6'
+    environment {
+          PATH = "/opt/apache-maven-3.8.6/bin:$PATH"
+    }
+    triggers {
+        pollSCM "* * * * *"
     }
     stages {
-        stage("Build") {
+        stage("clone code with git") {
             steps {
               checkout([$class: "GitSCM", 
                 branches: [[name: "*/devops"]],
                 extensions: [],
                 userRemoteConfigs: [[url: "https://github.com/eliasuh/testspringbootapp.git"]]])
-                sh 'mvn clean install'
+              
           }
+        }
+        stage("build code with maven") {
+           steps {  
+                sh "mvn -version"
+                sh "mvn clean install -DskipTests"
+          }
+        }
+        stage('Staging') {
+            steps {
+                sh 'sudo docker-compose build'
+                sh 'sudo docker-compose up -d'
+            }
         }
     }
 }
