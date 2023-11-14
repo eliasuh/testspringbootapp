@@ -1,7 +1,8 @@
 pipeline {
     agent any
     environment {
-          PATH = "/opt/apache-maven-3.8.6/bin:$PATH"
+          PATH = "/opt/apache-maven-3.8.6/bin:$PATH"      
+          DOCKERHUB_CREDENTIALS = credentials('dockerhub')   
     }
     triggers {
         pollSCM "* * * * *"
@@ -21,17 +22,14 @@ pipeline {
                 sh "mvn -version"
                 sh "mvn clean install -DskipTests"
           }
-        }      
+        }
         stage('docker Login') {
-           steps {  
-              script{
-                  withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {                 
-                       sh "docker login -u elias.mohammad@gmail.com -p $dockerhubpwd"                      
-          //          echo 'Login Completed' 
-                    //sh 'sudo docker-compose build'
-                    //sh 'sudo docker-compose up -d' */
-                 }   
-              }            
+            steps {    
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u uhelias --password-stdin'             		
+	              echo 'Login Completed' 
+                sh 'sudo docker-compose build'
+                sh 'sudo docker-compose up -d'
+             
             }
         }
     }
