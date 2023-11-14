@@ -22,7 +22,7 @@ pipeline {
                 sh "mvn clean install -DskipTests"
           }
         }
-          stage("build code with maven") {
+        stage("docker compose") {
            steps {  
                 sh "sudo docker-compose build"
                 sh "sudo docker-compose up -d"
