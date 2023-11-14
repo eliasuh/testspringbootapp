@@ -27,7 +27,7 @@ pipeline {
             steps {    
                 script{
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', passwordVariable: 'dockerhub')]) {
-                	sh "docker login -u uhelias -p Elias@1109"
+                	sh "docker login -u uhelias -p $dockerhub"
                   
                    // sh 'sudo docker-compose build"
                    // sh 'sudo docker-compose up -d'
