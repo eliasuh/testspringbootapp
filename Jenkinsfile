@@ -23,8 +23,7 @@ pipeline {
           }
         }
         stage('docker Login') {
-            steps {    
-              script{
+            steps {  
                  withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
                     // some block
                     sh "docker login -u elias.mohammad@gmail.com -p $dockerhubpwd"
@@ -32,7 +31,7 @@ pipeline {
                     //sh 'sudo docker-compose build'
                     //sh 'sudo docker-compose up -d' */
                  }   
-              }
+            
             }
         }
     }
