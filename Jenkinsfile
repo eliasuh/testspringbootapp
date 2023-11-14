@@ -29,8 +29,8 @@ pipeline {
                     // some block
                     sh "docker login -u elias.mohammad@gmail.com -p $dockerhubpwd"
                     echo 'Login Completed' 
-                    sh 'sudo docker-compose build'
-                    sh 'sudo docker-compose up -d'
+                    //sh 'sudo docker-compose build'
+                    //sh 'sudo docker-compose up -d' */
                  }   
               }
             }
