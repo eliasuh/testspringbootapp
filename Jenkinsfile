@@ -28,7 +28,7 @@ pipeline {
                  withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
                     // some block
                      sh '''
-                    sh "docker login -u uhelias -p $dockerhubpwd"
+                    sh "docker login -u elias.mohammad@gmail.com -p $dockerhubpwd"
                     echo "Login Completed" 
                      '''
                    // sh 'sudo docker-compose build"
