@@ -22,17 +22,17 @@ pipeline {
                 sh "mvn clean install -DskipTests"
           }
         }
-        stage('docker Login') {
-            steps {  
-                 withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+       // stage('docker Login') {
+        //    steps {  
+        //         withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
                     // some block
-                    sh "docker login -u elias.mohammad@gmail.com -p $dockerhubpwd"
-                    echo 'Login Completed' 
+         //           sh "docker login -u elias.mohammad@gmail.com -p $dockerhubpwd"
+          //          echo 'Login Completed' 
                     //sh 'sudo docker-compose build'
                     //sh 'sudo docker-compose up -d' */
                  }   
             
-            }
-        }
+       //     }
+       // }
     }
 }
