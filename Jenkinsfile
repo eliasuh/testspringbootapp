@@ -25,7 +25,7 @@ pipeline {
         stage('Staging') {
             steps {    
                 script{
-                 withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
+                 withCredentials([string(credentialsId: 'dockerhub')]) {
                     // some block
                      sh '''
                     sh "docker login -u uhelias -p $dockerhub"
