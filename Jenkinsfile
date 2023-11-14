@@ -23,12 +23,17 @@ pipeline {
                 sh "mvn clean install -DskipTests"
           }
         }
-        stage('docker Login') {
+        stage('Staging') {
             steps {    
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u uhelias --password-stdin'             		
-	              echo 'Login Completed' 
-                sh 'sudo docker-compose build'
-                sh 'sudo docker-compose up -d'
+                script{
+                 withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                    // some block
+                    sh "docker login -u uhelias -p $dockerhubpwd"
+                    echo "Login Completed" 
+                   // sh 'sudo docker-compose build"
+                   // sh 'sudo docker-compose up -d'
+                 }   
+              }
              
             }
         }
