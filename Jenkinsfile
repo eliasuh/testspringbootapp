@@ -21,24 +21,20 @@ pipeline {
                 sh "mvn -version"
                 sh "mvn clean install -DskipTests"
           }
-        }
-        stage("docker compose") {
+        }      
+        stage('docker Login') {
            steps {  
-                sh "sudo docker-compose build"
-                sh "sudo docker-compose up -d"
-          }
-        }
-       // stage('docker Login') {
-        //    steps {  
-        //         withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                    // some block
-         //           sh "docker login -u elias.mohammad@gmail.com -p $dockerhubpwd"
+              script{
+                  withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                       ...
+                       sh "docker login -u elias.mohammad@gmail.com -p $dockerhubpwd"
+                       ...
           //          echo 'Login Completed' 
                     //sh 'sudo docker-compose build'
                     //sh 'sudo docker-compose up -d' */
-           //      }   
-            
-       //     }
-       // }
+                 }   
+              }            
+            }
+        }
     }
 }
