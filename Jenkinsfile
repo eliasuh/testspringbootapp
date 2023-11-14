@@ -1,8 +1,7 @@
 pipeline {
     agent any
     environment {
-          PATH = "/opt/apache-maven-3.8.6/bin:$PATH"      
-          DOCKERHUB_CREDENTIALS = credentials('dockerhub')   
+          PATH = "/opt/apache-maven-3.8.6/bin:$PATH"
     }
     triggers {
         pollSCM "* * * * *"
