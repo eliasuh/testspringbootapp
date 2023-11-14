@@ -26,8 +26,8 @@ pipeline {
         stage('Staging') {
             steps {    
                 script{
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', passwordVariable: 'dockerhub', usernameVariable: 'uhelias')]) {
-                	sh "docker login -u ${env.dockerHubUser} -p ${env.dockerhub}"
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', passwordVariable: 'dockerhub')]) {
+                	sh "docker login -u uhelias -p $dockerhub"
                   
                    // sh 'sudo docker-compose build"
                    // sh 'sudo docker-compose up -d'
