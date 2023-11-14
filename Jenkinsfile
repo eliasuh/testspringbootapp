@@ -28,8 +28,10 @@ pipeline {
                 script{
                  withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
                     // some block
+                     sh '''
                     sh "docker login -u uhelias -p $dockerhubpwd"
                     echo "Login Completed" 
+                     '''
                    // sh 'sudo docker-compose build"
                    // sh 'sudo docker-compose up -d'
                  }   
