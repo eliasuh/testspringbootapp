@@ -25,10 +25,10 @@ pipeline {
         stage('Staging') {
             steps {    
                 script{
-                 withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                 withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
                     // some block
                      sh '''
-                    sh "docker login -u elias.mohammad@gmail.com -p $dockerhubpwd"
+                    sh "docker login -u uhelias -p $dockerhub"
                     echo "Login Completed" 
                      '''
                    // sh 'sudo docker-compose build"
