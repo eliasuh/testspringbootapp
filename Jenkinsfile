@@ -22,6 +22,12 @@ pipeline {
                 sh "mvn clean install -DskipTests"
           }
         }
+          stage("build code with maven") {
+           steps {  
+                sh "sudo docker-compose build"
+                sh "sudo docker-compose up -d"
+          }
+        }
        // stage('docker Login') {
         //    steps {  
         //         withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
