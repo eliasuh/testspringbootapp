@@ -59,7 +59,7 @@ services:
       timeout: 20s
       retries: 10
 
-  studentdemo-app:
+  springbootapp:
     restart: on-failure
     build: ./
     expose:
