@@ -1,39 +1,72 @@
-version: '2.3'
+# version: '2.3'
 
+# services:
+#   mysql:
+#     restart: always
+#     image: mysql:5.7
+#     container_name: mysql
+#     ports:
+#       - "3307:3306"
+#     volumes:
+#       - ./store/:/var/lib/mysql
+#     mem_limit: 512m
+#     networks:
+#       - mysqlnetwork
+#     environment:
+#       - MYSQL_ROOT_PASSWORD=root
+#       - MYSQL_DATABASE=person
+#   redis-server:
+#     restart: always
+#     image: redis:4.0
+#     container_name: redis-server
+#     command: /bin/bash -c 'redis-server --appendonly yes'
+#     sysctls:
+#       - net.core.somaxconn=65535
+#     ports:
+#       - "6380:6379"
+#     volumes:
+#       - ./redis:/data
+#     mem_limit: 96m
+#     networks:
+#       - mysqlnetwork
+# volumes:
+#   mysql:
+#     driver: local
+#   redis:
+#     driver: local
+# networks:
+#   mysqlnetwork:
+#     driver: bridge
+
+version: '3'
 services:
-  mysql:
+  docker-mysql:
     restart: always
-    image: mysql:5.7
-    container_name: mysql
-    ports:
-      - "3307:3306"
-    volumes:
-      - ./store/:/var/lib/mysql
-    mem_limit: 512m
-    networks:
-      - mysqlnetwork
+    container_name: docker-mysql
+    image: mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=person
-  redis-server:
-    restart: always
-    image: redis:4.0
-    container_name: redis-server
-    command: /bin/bash -c 'redis-server --appendonly yes'
-    sysctls:
-      - net.core.somaxconn=65535
-    ports:
-      - "6380:6379"
+      MYSQL_DATABASE: product
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_ROOT_HOST: '%'
     volumes:
-      - ./redis:/data
-    mem_limit: 96m
-    networks:
-      - mysqlnetwork
-volumes:
-  mysql:
-    driver: local
-  redis:
-    driver: local
-networks:
-  mysqlnetwork:
-    driver: bridge
+      - ./sql:/docker-entrypoint-initdb.d
+
+    ports:
+      - "6033:3306"
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=admin--execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 20s
+      retries: 10
+
+  studentdemo-app:
+    restart: on-failure
+    build: ./
+    expose:
+      - "9090"
+    ports:
+      - 9090:9090
+    environment:
+      WAIT_HOSTS: mysql:3306
+    depends_on:
+      - docker-mysql
