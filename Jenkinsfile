@@ -32,8 +32,8 @@ pipeline {
             //sh "docker-compose up -d"
            //sh "docker-compose down"
            //sh "docker-compose rm -f"
-           sh "docker rmi $(docker images | grep 'mysql')"
-           sh "docker rmi $(docker images | grep 'redis')"
+           sh "docker rmi -f mysql"
+           sh "docker rmi -f redis"
           }
         }
     }
