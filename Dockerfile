@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM openjdk:17
 EXPOSE 8080
-ADD target/student-1.0-SNAPSHOT.jar studentapp.jar
-CMD ["java","-jar","/studentapp.jar"]
+ADD target/studentdemo-1.0-SNAPSHOT.jar studentdemo.jar
+CMD ["java","-jar","/studentdemo.jar"]
