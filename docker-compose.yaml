@@ -55,7 +55,7 @@ services:
   app:
     depends_on:
       - mysqldb
-    build: ./TESTSPRINGBOOTAPP
+    build: ./
     restart: on-failure
     env_file: ./.env
     ports:
