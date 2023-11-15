@@ -29,18 +29,6 @@ services:
     mem_limit: 96m
     networks:
       - mysqlnetwork
-  app:
-        container_name: 
-         spring-demo-app
-        depends_on:
-         - mysql
-        build: 
-         context: .
-        restart: always
-        links:
-         - mysql
-        ports:
-         - 8080:8080
 volumes:
   mysql:
     driver: local
