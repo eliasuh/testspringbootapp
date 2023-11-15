@@ -1,69 +1,69 @@
-# version: '2.3'
-
-# services:
-#   mysql:
-#     restart: always
-#     image: mysql:5.7
-#     container_name: mysql
-#     ports:
-#       - "3307:3306"
-#     volumes:
-#       - ./store/:/var/lib/mysql
-#     mem_limit: 512m
-#     networks:
-#       - mysqlnetwork
-#     environment:
-#       - MYSQL_ROOT_PASSWORD=root
-#       - MYSQL_DATABASE=person
-#   redis-server:
-#     restart: always
-#     image: redis:4.0
-#     container_name: redis-server
-#     command: /bin/bash -c 'redis-server --appendonly yes'
-#     sysctls:
-#       - net.core.somaxconn=65535
-#     ports:
-#       - "6380:6379"
-#     volumes:
-#       - ./redis:/data
-#     mem_limit: 96m
-#     networks:
-#       - mysqlnetwork
-# volumes:
-#   mysql:
-#     driver: local
-#   redis:
-#     driver: local
-# networks:
-#   mysqlnetwork:
-#     driver: bridge
-
-version: "3.3"
+version: '2.3'
 
 services:
-  mysqldb:
+  mysql:
+    restart: always
     image: mysql:5.7
-    restart: unless-stopped
-    env_file: ./.env
+    container_name: mysql
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./store/:/var/lib/mysql
+    mem_limit: 512m
+    networks:
+      - mysqlnetwork
     environment:
-      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
-      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=person
+  redis-server:
+    restart: always
+    image: redis:4.0
+    container_name: redis-server
+    command: /bin/bash -c 'redis-server --appendonly yes'
+    sysctls:
+      - net.core.somaxconn=65535
     ports:
-      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+      - "6380:6379"
     volumes:
-      - db:/var/lib/mysql
-  app:
-    depends_on:
-      - mysqldb
-    build: ./
-    restart: on-failure
-    env_file: ./.env
-    ports:
-      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
-    volumes:
-      - .m2:/root/.m2
-    stdin_open: true
-    tty: true
-
+      - ./redis:/data
+    mem_limit: 96m
+    networks:
+      - mysqlnetwork
 volumes:
-  db:
+  mysql:
+    driver: local
+  redis:
+    driver: local
+networks:
+  mysqlnetwork:
+    driver: bridge
+
+# version: "3.3"
+
+# services:
+#   mysqldb:
+#     image: mysql:5.7
+#     restart: unless-stopped
+#     env_file: ./.env
+#     environment:
+#       - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+#       - MYSQL_DATABASE=$MYSQLDB_DATABASE
+#     ports:
+#       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+#     volumes:
+#       - db:/var/lib/mysql
+#   app:
+#     depends_on:
+#       - mysqldb
+#     build: ./
+#     restart: on-failure
+#     env_file: ./.env
+#     ports:
+#       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+#     volumes:
+#       - .m2:/root/.m2
+#     stdin_open: true
+#     tty: true
+
+# volumes:
+#   db:
