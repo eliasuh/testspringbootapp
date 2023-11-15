@@ -28,8 +28,10 @@ pipeline {
         stage('docker login') {
           steps {
             sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            sh "docker-compose build"
-            sh "docker-compose up -d"
+           // sh "docker-compose build"
+           // sh "docker-compose up -d"
+           sh "docker-compose down"
+           sh "docker-compose rm -f"
           }
         }
     }
