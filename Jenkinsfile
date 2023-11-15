@@ -32,8 +32,8 @@ pipeline {
             //sh "docker-compose up -d"
            //sh "docker-compose down"
            //sh "docker-compose rm -f"
-           sh "docker rmi -f mysql"
-           sh "docker rmi -f redis"
+           sh "docker rmi -f mysql:5.7"
+           sh "docker rmi -f redis:4.0"
           }
         }
     }
