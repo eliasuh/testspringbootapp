@@ -32,7 +32,7 @@ pipeline {
             //sh "docker-compose up -d"
            //sh "docker-compose down"
            //sh "docker-compose rm -f"
-           sh "docker rmi $(docker images | grep 'mysql')l"
+           sh "docker rmi $(docker images | grep 'mysql')"
            sh "docker rmi $(docker images | grep 'redis')"
           }
         }
