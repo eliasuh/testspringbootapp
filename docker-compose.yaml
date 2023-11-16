@@ -1,42 +1,42 @@
-version: '2.3'
+# version: '2.3'
 
-services:
-  mysql:
-    restart: always
-    image: mysql:5.7
-    container_name: mysql
-    ports:
-      - "3307:3306"
-    volumes:
-      - ./store/:/var/lib/mysql
-    mem_limit: 512m
-    networks:
-      - mysqlnetwork
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=person
-  redis-server:
-    restart: always
-    image: redis:4.0
-    container_name: redis-server
-    command: /bin/bash -c 'redis-server --appendonly yes'
-    sysctls:
-      - net.core.somaxconn=65535
-    ports:
-      - "6380:6379"
-    volumes:
-      - ./redis:/data
-    mem_limit: 96m
-    networks:
-      - mysqlnetwork
-volumes:
-  mysql:
-    driver: local
-  redis:
-    driver: local
-networks:
-  mysqlnetwork:
-    driver: bridge
+# services:
+#   mysql:
+#     restart: always
+#     image: mysql:5.7
+#     container_name: mysql
+#     ports:
+#       - "3307:3306"
+#     volumes:
+#       - ./store/:/var/lib/mysql
+#     mem_limit: 512m
+#     networks:
+#       - mysqlnetwork
+#     environment:
+#       - MYSQL_ROOT_PASSWORD=root
+#       - MYSQL_DATABASE=person
+#   redis-server:
+#     restart: always
+#     image: redis:4.0
+#     container_name: redis-server
+#     command: /bin/bash -c 'redis-server --appendonly yes'
+#     sysctls:
+#       - net.core.somaxconn=65535
+#     ports:
+#       - "6380:6379"
+#     volumes:
+#       - ./redis:/data
+#     mem_limit: 96m
+#     networks:
+#       - mysqlnetwork
+# volumes:
+#   mysql:
+#     driver: local
+#   redis:
+#     driver: local
+# networks:
+#   mysqlnetwork:
+#     driver: bridge
 
 # version: "3.3"
 
@@ -67,3 +67,38 @@ networks:
 
 # volumes:
 #   db:
+
+
+version: "3"
+services:
+  springBootApp:
+    build: ./
+    image: uhelias/springbootapp:latest
+    container_name: studentdemo-app
+    environment:
+      - DOCKER_MYSQL_SPRINGBOOT_DEMO_MYSQL_HOST=studentdemo-db
+    ports:
+      - "8081:8081"
+    networks:
+      - network
+    depends_on:
+      - mysqlDb
+    restart: on-failure
+
+  mysqlDb:
+    image: mysql:8.0.22
+    container_name: studentdemo-db
+    ports:
+      - "3307:3306"
+    networks:
+      - network
+    volumes:
+      - volume:/var/lib/mysql
+    environment:
+        MYSQL_ROOT_PASSWORD: admin
+
+networks:
+  network:
+
+volumes:
+  volume:
