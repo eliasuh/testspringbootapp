@@ -72,7 +72,7 @@
 version: "3"
 services:
   springBootApp:
-    build: ./
+    build: .
     image: uhelias/springbootapp:latest
     container_name: studentdemo-app
     environment:
